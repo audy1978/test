@@ -6,12 +6,12 @@ from streamlit.web import cli as stcli
 
 if __name__ == "__main__":
     if Runtime.exists():
-        import capos_app  # noqa: F401
+        import app  # noqa: F401
     else:
         sys.argv = [
             "streamlit",
             "run",
-            "capos_app.py",
+            "app.py",
             "--server.headless=true",
         ]
         sys.exit(stcli.main())
