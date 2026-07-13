@@ -1,31 +1,31 @@
-from pathlib import Path
+﻿from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
 
 APP_DIR = Path(__file__).parent
-DEFAULT_FILE = APP_DIR / "สรุปปริมาณงาน รายได้ จากระบบ New CAPOS รายเดือน ป.xlsx"
+DEFAULT_FILE = APP_DIR / "à¸ªà¸£à¸¸à¸›à¸›à¸£à¸´à¸¡à¸²à¸“à¸‡à¸²à¸™ à¸£à¸²à¸¢à¹„à¸”à¹‰ à¸ˆà¸²à¸à¸£à¸°à¸šà¸š New CAPOS à¸£à¸²à¸¢à¹€à¸”à¸·à¸­à¸™ à¸›.xlsx"
 
 MONTHS = [
-    "ม.ค.",
-    "ก.พ.",
-    "มี.ค.",
-    "เม.ย.",
-    "พ.ค.",
-    "มิ.ย.",
-    "ก.ค.",
-    "ส.ค.",
-    "ก.ย.",
-    "ต.ค.",
-    "พ.ย.",
-    "ธ.ค.",
+    "à¸¡.à¸„.",
+    "à¸.à¸ž.",
+    "à¸¡à¸µ.à¸„.",
+    "à¹€à¸¡.à¸¢.",
+    "à¸ž.à¸„.",
+    "à¸¡à¸´.à¸¢.",
+    "à¸.à¸„.",
+    "à¸ª.à¸„.",
+    "à¸.à¸¢.",
+    "à¸•.à¸„.",
+    "à¸ž.à¸¢.",
+    "à¸˜.à¸„.",
 ]
 
 
 st.set_page_config(
     page_title="New CAPOS Monthly Dashboard",
-    page_icon="📊",
+    page_icon="ðŸ“Š",
     layout="wide",
 )
 
@@ -47,10 +47,10 @@ def load_capos_workbook(file):
 
 def clean_summary_table(df):
     df = df.dropna(how="all").copy()
-    df = df[df["สาขา/พื้นที่"].notna()]
-    df["สาขา/พื้นที่"] = df["สาขา/พื้นที่"].astype(str)
+    df = df[df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].notna()]
+    df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"] = df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].astype(str)
 
-    for col in ["จำนวน ปณ", "รายการบริการ", "ชิ้นรวม 2568", "เงินรวม 2568", "รวม ชิ้น", "รวม เงิน"]:
+    for col in ["à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“", "à¸£à¸²à¸¢à¸à¸²à¸£à¸šà¸£à¸´à¸à¸²à¸£", "à¸Šà¸´à¹‰à¸™à¸£à¸§à¸¡ 2568", "à¹€à¸‡à¸´à¸™à¸£à¸§à¸¡ 2568", "à¸£à¸§à¸¡ à¸Šà¸´à¹‰à¸™", "à¸£à¸§à¸¡ à¹€à¸‡à¸´à¸™"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
 
@@ -59,16 +59,16 @@ def clean_summary_table(df):
 
 def clean_detail_table(df):
     df = df.dropna(how="all").copy()
-    df = df[df["สาขา/พื้นที่"].notna()]
-    df = df[df["กลุ่มบริการ"].notna()]
+    df = df[df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].notna()]
+    df = df[df["à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£"].notna()]
 
     text_cols = [
-        "สาขา/พื้นที่",
-        "เหตุผลเชิงยุทธศาสตร์",
-        "เขต",
-        "รหัสไปรษณีย์",
-        "ปณ",
-        "กลุ่มบริการ",
+        "à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ",
+        "à¹€à¸«à¸•à¸¸à¸œà¸¥à¹€à¸Šà¸´à¸‡à¸¢à¸¸à¸—à¸˜à¸¨à¸²à¸ªà¸•à¸£à¹Œ",
+        "à¹€à¸‚à¸•",
+        "à¸£à¸«à¸±à¸ªà¹„à¸›à¸£à¸©à¸“à¸µà¸¢à¹Œ",
+        "à¸›à¸“",
+        "à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£",
     ]
     for col in text_cols:
         if col in df.columns:
@@ -77,7 +77,7 @@ def clean_detail_table(df):
     numeric_cols = [
         col
         for col in df.columns
-        if col.endswith("ชิ้น") or col.endswith("เงิน") or col in ["แถวต้นฉบับ", "ลำดับ"]
+        if col.endswith("à¸Šà¸´à¹‰à¸™") or col.endswith("à¹€à¸‡à¸´à¸™") or col in ["à¹à¸–à¸§à¸•à¹‰à¸™à¸‰à¸šà¸±à¸š", "à¸¥à¸³à¸”à¸±à¸š"]
     ]
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
@@ -88,48 +88,48 @@ def clean_detail_table(df):
 def make_long_detail(detail):
     long_rows = []
     id_cols = [
-        "สาขา/พื้นที่",
-        "เหตุผลเชิงยุทธศาสตร์",
-        "เขต",
-        "รหัสไปรษณีย์",
-        "ปณ",
-        "กลุ่มบริการ",
+        "à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ",
+        "à¹€à¸«à¸•à¸¸à¸œà¸¥à¹€à¸Šà¸´à¸‡à¸¢à¸¸à¸—à¸˜à¸¨à¸²à¸ªà¸•à¸£à¹Œ",
+        "à¹€à¸‚à¸•",
+        "à¸£à¸«à¸±à¸ªà¹„à¸›à¸£à¸©à¸“à¸µà¸¢à¹Œ",
+        "à¸›à¸“",
+        "à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£",
     ]
 
     for index, month in enumerate(MONTHS, start=1):
-        pieces_col = f"{month} ชิ้น"
-        revenue_col = f"{month} เงิน"
+        pieces_col = f"{month} à¸Šà¸´à¹‰à¸™"
+        revenue_col = f"{month} à¹€à¸‡à¸´à¸™"
         month_df = detail[id_cols + [pieces_col, revenue_col]].copy()
-        month_df = month_df.rename(columns={pieces_col: "ชิ้น", revenue_col: "เงิน"})
-        month_df["เดือน"] = month
-        month_df["ลำดับเดือน"] = index
+        month_df = month_df.rename(columns={pieces_col: "à¸Šà¸´à¹‰à¸™", revenue_col: "à¹€à¸‡à¸´à¸™"})
+        month_df["à¹€à¸”à¸·à¸­à¸™"] = month
+        month_df["à¸¥à¸³à¸”à¸±à¸šà¹€à¸”à¸·à¸­à¸™"] = index
         long_rows.append(month_df)
 
     long_df = pd.concat(long_rows, ignore_index=True)
-    long_df["ชิ้น"] = pd.to_numeric(long_df["ชิ้น"], errors="coerce").fillna(0)
-    long_df["เงิน"] = pd.to_numeric(long_df["เงิน"], errors="coerce").fillna(0)
-    long_df = long_df[(long_df["ชิ้น"] != 0) | (long_df["เงิน"] != 0)]
-    long_df["รายได้ต่อชิ้น"] = long_df["เงิน"].div(long_df["ชิ้น"]).where(long_df["ชิ้น"] > 0, 0)
+    long_df["à¸Šà¸´à¹‰à¸™"] = pd.to_numeric(long_df["à¸Šà¸´à¹‰à¸™"], errors="coerce").fillna(0)
+    long_df["à¹€à¸‡à¸´à¸™"] = pd.to_numeric(long_df["à¹€à¸‡à¸´à¸™"], errors="coerce").fillna(0)
+    long_df = long_df[(long_df["à¸Šà¸´à¹‰à¸™"] != 0) | (long_df["à¹€à¸‡à¸´à¸™"] != 0)]
+    long_df["à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™"] = long_df["à¹€à¸‡à¸´à¸™"].div(long_df["à¸Šà¸´à¹‰à¸™"]).where(long_df["à¸Šà¸´à¹‰à¸™"] > 0, 0)
     return long_df
 
 
 def make_long_monthly(monthly):
     long_rows = []
-    id_cols = ["สาขา/พื้นที่", "จำนวน ปณ", "รายการบริการ"]
+    id_cols = ["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", "à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“", "à¸£à¸²à¸¢à¸à¸²à¸£à¸šà¸£à¸´à¸à¸²à¸£"]
 
     for index, month in enumerate(MONTHS, start=1):
-        pieces_col = f"{month} ชิ้น"
-        revenue_col = f"{month} เงิน"
+        pieces_col = f"{month} à¸Šà¸´à¹‰à¸™"
+        revenue_col = f"{month} à¹€à¸‡à¸´à¸™"
         month_df = monthly[id_cols + [pieces_col, revenue_col]].copy()
-        month_df = month_df.rename(columns={pieces_col: "ชิ้น", revenue_col: "เงิน"})
-        month_df["เดือน"] = month
-        month_df["ลำดับเดือน"] = index
+        month_df = month_df.rename(columns={pieces_col: "à¸Šà¸´à¹‰à¸™", revenue_col: "à¹€à¸‡à¸´à¸™"})
+        month_df["à¹€à¸”à¸·à¸­à¸™"] = month
+        month_df["à¸¥à¸³à¸”à¸±à¸šà¹€à¸”à¸·à¸­à¸™"] = index
         long_rows.append(month_df)
 
     long_df = pd.concat(long_rows, ignore_index=True)
-    long_df["ชิ้น"] = pd.to_numeric(long_df["ชิ้น"], errors="coerce").fillna(0)
-    long_df["เงิน"] = pd.to_numeric(long_df["เงิน"], errors="coerce").fillna(0)
-    long_df["รายได้ต่อชิ้น"] = long_df["เงิน"].div(long_df["ชิ้น"]).where(long_df["ชิ้น"] > 0, 0)
+    long_df["à¸Šà¸´à¹‰à¸™"] = pd.to_numeric(long_df["à¸Šà¸´à¹‰à¸™"], errors="coerce").fillna(0)
+    long_df["à¹€à¸‡à¸´à¸™"] = pd.to_numeric(long_df["à¹€à¸‡à¸´à¸™"], errors="coerce").fillna(0)
+    long_df["à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™"] = long_df["à¹€à¸‡à¸´à¸™"].div(long_df["à¸Šà¸´à¹‰à¸™"]).where(long_df["à¸Šà¸´à¹‰à¸™"] > 0, 0)
     return long_df
 
 
@@ -141,215 +141,216 @@ def money_format(value):
     return f"{value:,.2f}"
 
 
-st.title("สรุปปริมาณงาน รายได้ จากระบบ New CAPOS รายเดือน ป")
+st.title("à¸ªà¸£à¸¸à¸›à¸›à¸£à¸´à¸¡à¸²à¸“à¸‡à¸²à¸™ à¸£à¸²à¸¢à¹„à¸”à¹‰ à¸ˆà¸²à¸à¸£à¸°à¸šà¸š New CAPOS à¸£à¸²à¸¢à¹€à¸”à¸·à¸­à¸™ à¸›")
 
 with st.sidebar:
-    st.header("ข้อมูล")
-    uploaded_file = st.file_uploader("เลือกไฟล์ Excel", type=["xlsx"])
+    st.header("à¸‚à¹‰à¸­à¸¡à¸¹à¸¥")
+    uploaded_file = st.file_uploader("à¹€à¸¥à¸·à¸­à¸à¹„à¸Ÿà¸¥à¹Œ Excel", type=["xlsx"])
     source_file = uploaded_file if uploaded_file is not None else DEFAULT_FILE
-    st.caption("ไฟล์เริ่มต้น: " + (uploaded_file.name if uploaded_file else DEFAULT_FILE.name))
+    st.caption("à¹„à¸Ÿà¸¥à¹Œà¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™: " + (uploaded_file.name if uploaded_file else DEFAULT_FILE.name))
 
 try:
     executive_df, detail_df, monthly_df, long_detail_df, long_monthly_df = load_capos_workbook(source_file)
 except FileNotFoundError:
-    st.error(f"ไม่พบไฟล์เริ่มต้น: {DEFAULT_FILE}")
+    st.error(f"à¹„à¸¡à¹ˆà¸žà¸šà¹„à¸Ÿà¸¥à¹Œà¹€à¸£à¸´à¹ˆà¸¡à¸•à¹‰à¸™: {DEFAULT_FILE}")
     st.stop()
 except Exception as exc:
-    st.error(f"อ่านไฟล์ไม่สำเร็จ: {exc}")
+    st.error(f"à¸­à¹ˆà¸²à¸™à¹„à¸Ÿà¸¥à¹Œà¹„à¸¡à¹ˆà¸ªà¸³à¹€à¸£à¹‡à¸ˆ: {exc}")
     st.stop()
 
 with st.sidebar:
-    st.header("ตัวกรอง")
-    area_options = sorted(long_detail_df["สาขา/พื้นที่"].dropna().unique())
-    selected_areas = st.multiselect("สาขา/พื้นที่", area_options, default=area_options)
+    st.header("à¸•à¸±à¸§à¸à¸£à¸­à¸‡")
+    area_options = sorted(long_detail_df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].dropna().unique())
+    selected_areas = st.multiselect("à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", area_options, default=area_options)
 
-    area_filtered = long_detail_df[long_detail_df["สาขา/พื้นที่"].isin(selected_areas)]
+    area_filtered = long_detail_df[long_detail_df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].isin(selected_areas)]
 
-    district_options = sorted(area_filtered["เขต"].dropna().unique())
-    selected_districts = st.multiselect("เขต", district_options, default=district_options)
+    district_options = sorted(area_filtered["à¹€à¸‚à¸•"].dropna().unique())
+    selected_districts = st.multiselect("à¹€à¸‚à¸•", district_options, default=district_options)
 
-    district_filtered = area_filtered[area_filtered["เขต"].isin(selected_districts)]
+    district_filtered = area_filtered[area_filtered["à¹€à¸‚à¸•"].isin(selected_districts)]
 
-    office_options = sorted(district_filtered["ปณ"].dropna().unique())
-    selected_offices = st.multiselect("ปณ", office_options, default=office_options)
+    office_options = sorted(district_filtered["à¸›à¸“"].dropna().unique())
+    selected_offices = st.multiselect("à¸›à¸“", office_options, default=office_options)
 
-    office_filtered = district_filtered[district_filtered["ปณ"].isin(selected_offices)]
+    office_filtered = district_filtered[district_filtered["à¸›à¸“"].isin(selected_offices)]
 
-    service_options = sorted(office_filtered["กลุ่มบริการ"].dropna().unique())
-    selected_services = st.multiselect("กลุ่มบริการ", service_options, default=service_options)
+    service_options = sorted(office_filtered["à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£"].dropna().unique())
+    selected_services = st.multiselect("à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£", service_options, default=service_options)
 
-    selected_months = st.multiselect("เดือน", MONTHS, default=MONTHS)
+    selected_months = st.multiselect("à¹€à¸”à¸·à¸­à¸™", MONTHS, default=MONTHS)
 
 filtered = long_detail_df[
-    long_detail_df["สาขา/พื้นที่"].isin(selected_areas)
-    & long_detail_df["เขต"].isin(selected_districts)
-    & long_detail_df["ปณ"].isin(selected_offices)
-    & long_detail_df["กลุ่มบริการ"].isin(selected_services)
-    & long_detail_df["เดือน"].isin(selected_months)
+    long_detail_df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].isin(selected_areas)
+    & long_detail_df["à¹€à¸‚à¸•"].isin(selected_districts)
+    & long_detail_df["à¸›à¸“"].isin(selected_offices)
+    & long_detail_df["à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£"].isin(selected_services)
+    & long_detail_df["à¹€à¸”à¸·à¸­à¸™"].isin(selected_months)
 ].copy()
 
 filtered_monthly = long_monthly_df[
-    long_monthly_df["สาขา/พื้นที่"].isin(selected_areas)
-    & long_monthly_df["เดือน"].isin(selected_months)
+    long_monthly_df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].isin(selected_areas)
+    & long_monthly_df["à¹€à¸”à¸·à¸­à¸™"].isin(selected_months)
 ].copy()
 
 if filtered.empty:
-    st.warning("ไม่มีข้อมูลตามตัวกรองที่เลือก")
+    st.warning("à¹„à¸¡à¹ˆà¸¡à¸µà¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸•à¸²à¸¡à¸•à¸±à¸§à¸à¸£à¸­à¸‡à¸—à¸µà¹ˆà¹€à¸¥à¸·à¸­à¸")
     st.stop()
 
-total_pieces = filtered["ชิ้น"].sum()
-total_revenue = filtered["เงิน"].sum()
+total_pieces = filtered["à¸Šà¸´à¹‰à¸™"].sum()
+total_revenue = filtered["à¹€à¸‡à¸´à¸™"].sum()
 avg_revenue_per_piece = total_revenue / total_pieces if total_pieces else 0
 
 metric_cols = st.columns(5)
-metric_cols[0].metric("สาขา/พื้นที่", number_format(filtered["สาขา/พื้นที่"].nunique()))
-metric_cols[1].metric("จำนวน ปณ", number_format(filtered["ปณ"].nunique()))
-metric_cols[2].metric("จำนวนชิ้น", number_format(total_pieces))
-metric_cols[3].metric("รายได้", money_format(total_revenue))
-metric_cols[4].metric("รายได้ต่อชิ้น", money_format(avg_revenue_per_piece))
+metric_cols[0].metric("à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", number_format(filtered["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].nunique()))
+metric_cols[1].metric("à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“", number_format(filtered["à¸›à¸“"].nunique()))
+metric_cols[2].metric("à¸ˆà¸³à¸™à¸§à¸™à¸Šà¸´à¹‰à¸™", number_format(total_pieces))
+metric_cols[3].metric("à¸£à¸²à¸¢à¹„à¸”à¹‰", money_format(total_revenue))
+metric_cols[4].metric("à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™", money_format(avg_revenue_per_piece))
 
 tab_exec, tab_month, tab_service, tab_office, tab_data = st.tabs(
-    ["Executive", "รายเดือน", "บริการ", "ปณ/พื้นที่", "ข้อมูลละเอียด"]
+    ["Executive", "à¸£à¸²à¸¢à¹€à¸”à¸·à¸­à¸™", "à¸šà¸£à¸´à¸à¸²à¸£", "à¸›à¸“/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", "à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¸¥à¸°à¹€à¸­à¸µà¸¢à¸”"]
 )
 
 with tab_exec:
-    executive_view = executive_df[executive_df["สาขา/พื้นที่"].isin(selected_areas)].copy()
+    executive_view = executive_df[executive_df["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"].isin(selected_areas)].copy()
     executive_view = executive_view[
         [
-            "ลำดับ",
-            "สาขา/พื้นที่",
-            "เหตุผลเชิงยุทธศาสตร์",
-            "จำนวน ปณ",
-            "รายการบริการ",
-            "ชิ้นรวม 2568",
-            "เงินรวม 2568",
-            "สถานะตรวจสอบ",
+            "à¸¥à¸³à¸”à¸±à¸š",
+            "à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ",
+            "à¹€à¸«à¸•à¸¸à¸œà¸¥à¹€à¸Šà¸´à¸‡à¸¢à¸¸à¸—à¸˜à¸¨à¸²à¸ªà¸•à¸£à¹Œ",
+            "à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“",
+            "à¸£à¸²à¸¢à¸à¸²à¸£à¸šà¸£à¸´à¸à¸²à¸£",
+            "à¸Šà¸´à¹‰à¸™à¸£à¸§à¸¡ 2568",
+            "à¹€à¸‡à¸´à¸™à¸£à¸§à¸¡ 2568",
+            "à¸ªà¸–à¸²à¸™à¸°à¸•à¸£à¸§à¸ˆà¸ªà¸­à¸š",
         ]
     ]
     st.dataframe(
         executive_view,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
-            "จำนวน ปณ": st.column_config.NumberColumn("จำนวน ปณ", format="%,.0f"),
-            "รายการบริการ": st.column_config.NumberColumn("รายการบริการ", format="%,.0f"),
-            "ชิ้นรวม 2568": st.column_config.NumberColumn("ชิ้นรวม 2568", format="%,.0f"),
-            "เงินรวม 2568": st.column_config.NumberColumn("เงินรวม 2568", format="%,.2f"),
+            "à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“": st.column_config.NumberColumn("à¸ˆà¸³à¸™à¸§à¸™ à¸›à¸“", format="%,.0f"),
+            "à¸£à¸²à¸¢à¸à¸²à¸£à¸šà¸£à¸´à¸à¸²à¸£": st.column_config.NumberColumn("à¸£à¸²à¸¢à¸à¸²à¸£à¸šà¸£à¸´à¸à¸²à¸£", format="%,.0f"),
+            "à¸Šà¸´à¹‰à¸™à¸£à¸§à¸¡ 2568": st.column_config.NumberColumn("à¸Šà¸´à¹‰à¸™à¸£à¸§à¸¡ 2568", format="%,.0f"),
+            "à¹€à¸‡à¸´à¸™à¸£à¸§à¸¡ 2568": st.column_config.NumberColumn("à¹€à¸‡à¸´à¸™à¸£à¸§à¸¡ 2568", format="%,.2f"),
         },
     )
 
 with tab_month:
     monthly_by_area = (
-        filtered_monthly.groupby(["สาขา/พื้นที่"], as_index=False)[["ชิ้น", "เงิน"]]
+        filtered_monthly.groupby(["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ"], as_index=False)[["à¸Šà¸´à¹‰à¸™", "à¹€à¸‡à¸´à¸™"]]
         .sum()
-        .sort_values("เงิน", ascending=False)
+        .sort_values("à¹€à¸‡à¸´à¸™", ascending=False)
     )
     monthly_trend = (
-        filtered_monthly.groupby(["ลำดับเดือน", "เดือน"], as_index=False)[["ชิ้น", "เงิน"]]
+        filtered_monthly.groupby(["à¸¥à¸³à¸”à¸±à¸šà¹€à¸”à¸·à¸­à¸™", "à¹€à¸”à¸·à¸­à¸™"], as_index=False)[["à¸Šà¸´à¹‰à¸™", "à¹€à¸‡à¸´à¸™"]]
         .sum()
-        .sort_values("ลำดับเดือน")
+        .sort_values("à¸¥à¸³à¸”à¸±à¸šà¹€à¸”à¸·à¸­à¸™")
     )
 
     chart_cols = st.columns(2)
     with chart_cols[0]:
-        st.subheader("แนวโน้มจำนวนชิ้น")
-        st.line_chart(monthly_trend, x="เดือน", y="ชิ้น")
+        st.subheader("à¹à¸™à¸§à¹‚à¸™à¹‰à¸¡à¸ˆà¸³à¸™à¸§à¸™à¸Šà¸´à¹‰à¸™")
+        st.line_chart(monthly_trend, x="à¹€à¸”à¸·à¸­à¸™", y="à¸Šà¸´à¹‰à¸™")
     with chart_cols[1]:
-        st.subheader("แนวโน้มรายได้")
-        st.line_chart(monthly_trend, x="เดือน", y="เงิน")
+        st.subheader("à¹à¸™à¸§à¹‚à¸™à¹‰à¸¡à¸£à¸²à¸¢à¹„à¸”à¹‰")
+        st.line_chart(monthly_trend, x="à¹€à¸”à¸·à¸­à¸™", y="à¹€à¸‡à¸´à¸™")
 
-    st.subheader("รายได้ตามสาขา/พื้นที่")
-    st.bar_chart(monthly_by_area, x="สาขา/พื้นที่", y="เงิน")
+    st.subheader("à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¸²à¸¡à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ")
+    st.bar_chart(monthly_by_area, x="à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", y="à¹€à¸‡à¸´à¸™")
 
 with tab_service:
     service_summary = (
-        filtered.groupby("กลุ่มบริการ", as_index=False)[["ชิ้น", "เงิน"]]
+        filtered.groupby("à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£", as_index=False)[["à¸Šà¸´à¹‰à¸™", "à¹€à¸‡à¸´à¸™"]]
         .sum()
-        .sort_values("เงิน", ascending=False)
+        .sort_values("à¹€à¸‡à¸´à¸™", ascending=False)
     )
-    service_summary["รายได้ต่อชิ้น"] = service_summary["เงิน"].div(
-        service_summary["ชิ้น"]
-    ).where(service_summary["ชิ้น"] > 0, 0)
+    service_summary["à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™"] = service_summary["à¹€à¸‡à¸´à¸™"].div(
+        service_summary["à¸Šà¸´à¹‰à¸™"]
+    ).where(service_summary["à¸Šà¸´à¹‰à¸™"] > 0, 0)
 
-    st.subheader("Top 20 กลุ่มบริการตามรายได้")
-    st.bar_chart(service_summary.head(20), x="กลุ่มบริการ", y="เงิน")
+    st.subheader("Top 20 à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£à¸•à¸²à¸¡à¸£à¸²à¸¢à¹„à¸”à¹‰")
+    st.bar_chart(service_summary.head(20), x="à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£", y="à¹€à¸‡à¸´à¸™")
     st.dataframe(
         service_summary,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
-            "ชิ้น": st.column_config.NumberColumn("ชิ้น", format="%,.0f"),
-            "เงิน": st.column_config.NumberColumn("เงิน", format="%,.2f"),
-            "รายได้ต่อชิ้น": st.column_config.NumberColumn("รายได้ต่อชิ้น", format="%,.2f"),
+            "à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸Šà¸´à¹‰à¸™", format="%,.0f"),
+            "à¹€à¸‡à¸´à¸™": st.column_config.NumberColumn("à¹€à¸‡à¸´à¸™", format="%,.2f"),
+            "à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™", format="%,.2f"),
         },
     )
 
 with tab_office:
     office_summary = (
-        filtered.groupby(["สาขา/พื้นที่", "เขต", "รหัสไปรษณีย์", "ปณ"], as_index=False)[["ชิ้น", "เงิน"]]
+        filtered.groupby(["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", "à¹€à¸‚à¸•", "à¸£à¸«à¸±à¸ªà¹„à¸›à¸£à¸©à¸“à¸µà¸¢à¹Œ", "à¸›à¸“"], as_index=False)[["à¸Šà¸´à¹‰à¸™", "à¹€à¸‡à¸´à¸™"]]
         .sum()
-        .sort_values("เงิน", ascending=False)
+        .sort_values("à¹€à¸‡à¸´à¸™", ascending=False)
     )
     area_summary = (
-        filtered.groupby("สาขา/พื้นที่", as_index=False)[["ชิ้น", "เงิน"]]
+        filtered.groupby("à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", as_index=False)[["à¸Šà¸´à¹‰à¸™", "à¹€à¸‡à¸´à¸™"]]
         .sum()
-        .sort_values("เงิน", ascending=False)
+        .sort_values("à¹€à¸‡à¸´à¸™", ascending=False)
     )
 
-    st.subheader("สรุปตามสาขา/พื้นที่")
+    st.subheader("à¸ªà¸£à¸¸à¸›à¸•à¸²à¸¡à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ")
     st.dataframe(
         area_summary,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
-            "ชิ้น": st.column_config.NumberColumn("ชิ้น", format="%,.0f"),
-            "เงิน": st.column_config.NumberColumn("เงิน", format="%,.2f"),
+            "à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸Šà¸´à¹‰à¸™", format="%,.0f"),
+            "à¹€à¸‡à¸´à¸™": st.column_config.NumberColumn("à¹€à¸‡à¸´à¸™", format="%,.2f"),
         },
     )
 
-    st.subheader("Top 30 ปณ ตามรายได้")
+    st.subheader("Top 30 à¸›à¸“ à¸•à¸²à¸¡à¸£à¸²à¸¢à¹„à¸”à¹‰")
     st.dataframe(
         office_summary.head(30),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
-            "ชิ้น": st.column_config.NumberColumn("ชิ้น", format="%,.0f"),
-            "เงิน": st.column_config.NumberColumn("เงิน", format="%,.2f"),
+            "à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸Šà¸´à¹‰à¸™", format="%,.0f"),
+            "à¹€à¸‡à¸´à¸™": st.column_config.NumberColumn("à¹€à¸‡à¸´à¸™", format="%,.2f"),
         },
     )
 
 with tab_data:
     display_df = filtered.sort_values(
-        ["สาขา/พื้นที่", "เขต", "ปณ", "กลุ่มบริการ", "ลำดับเดือน"]
+        ["à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ", "à¹€à¸‚à¸•", "à¸›à¸“", "à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£", "à¸¥à¸³à¸”à¸±à¸šà¹€à¸”à¸·à¸­à¸™"]
     )[
         [
-            "สาขา/พื้นที่",
-            "เขต",
-            "รหัสไปรษณีย์",
-            "ปณ",
-            "กลุ่มบริการ",
-            "เดือน",
-            "ชิ้น",
-            "เงิน",
-            "รายได้ต่อชิ้น",
+            "à¸ªà¸²à¸‚à¸²/à¸žà¸·à¹‰à¸™à¸—à¸µà¹ˆ",
+            "à¹€à¸‚à¸•",
+            "à¸£à¸«à¸±à¸ªà¹„à¸›à¸£à¸©à¸“à¸µà¸¢à¹Œ",
+            "à¸›à¸“",
+            "à¸à¸¥à¸¸à¹ˆà¸¡à¸šà¸£à¸´à¸à¸²à¸£",
+            "à¹€à¸”à¸·à¸­à¸™",
+            "à¸Šà¸´à¹‰à¸™",
+            "à¹€à¸‡à¸´à¸™",
+            "à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™",
         ]
     ]
 
     st.dataframe(
         display_df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
-            "ชิ้น": st.column_config.NumberColumn("ชิ้น", format="%,.0f"),
-            "เงิน": st.column_config.NumberColumn("เงิน", format="%,.2f"),
-            "รายได้ต่อชิ้น": st.column_config.NumberColumn("รายได้ต่อชิ้น", format="%,.2f"),
+            "à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸Šà¸´à¹‰à¸™", format="%,.0f"),
+            "à¹€à¸‡à¸´à¸™": st.column_config.NumberColumn("à¹€à¸‡à¸´à¸™", format="%,.2f"),
+            "à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™": st.column_config.NumberColumn("à¸£à¸²à¸¢à¹„à¸”à¹‰à¸•à¹ˆà¸­à¸Šà¸´à¹‰à¸™", format="%,.2f"),
         },
     )
 
     csv = display_df.to_csv(index=False).encode("utf-8-sig")
     st.download_button(
-        "ดาวน์โหลด CSV",
+        "à¸”à¸²à¸§à¸™à¹Œà¹‚à¸«à¸¥à¸” CSV",
         data=csv,
         file_name="new_capos_filtered.csv",
         mime="text/csv",
     )
+
